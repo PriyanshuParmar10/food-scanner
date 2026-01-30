@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 // backend/routes/authRoutes.js
 
 // 👇 FORCE THIS KEY
-const JWT_SECRET = process.env.JWT_SECRET; 
+
 
 // ... rest of your code ...
 
@@ -46,7 +46,7 @@ router.post('/register', async (req, res,next) => {
 router.post('/login', async (req, res,next) => {
   try {
     const { email, password } = req.body;
-
+    const JWT_SECRET = process.env.JWT_SECRET; 
     // A. Find User
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });

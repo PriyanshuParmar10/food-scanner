@@ -3,9 +3,9 @@ import axios from "axios";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 const SOUNDS = {
-  pop: "https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3",
-  shy: "https://assets.mixkit.co/active_storage/sfx/2572/2572-preview.mp3",
-  crunch: "https://assets.mixkit.co/active_storage/sfx/2573/2573-preview.mp3", 
+  pop: "/pop.mp3",
+  shy: "shy.mp3",
+  crunch: "/crunch.mp3", 
 };
 
 const Login = ({ onLoginSuccess }) => {
@@ -38,7 +38,9 @@ const Login = ({ onLoginSuccess }) => {
   const playSound = (type) => {
     const audio = new Audio(SOUNDS[type] || SOUNDS.pop);
     audio.volume = 0.5;
-    audio.play().catch(() => {});
+    audio.play().catch(error => {
+    console.warn("Audio playback failed:", error);
+    });
   };
 
   const handleFocus = (field) => {
@@ -91,6 +93,7 @@ const Login = ({ onLoginSuccess }) => {
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth${endpoint}`, payload);
+      {console.log(response);}
       if (!isLogin) {
         setIsLogin(true);
         setError("Account created! 🚀 Please log in.");
