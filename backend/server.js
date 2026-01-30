@@ -14,15 +14,18 @@ app.use(cors({
 }));
 const PORT = process.env.PORT || 5000;
 // Database Connection
-mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/smart-inventory")
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ MongoDB Error:", err));
+// 1. Use the variable from Render, or fallback to local ONLY if it's missing
+const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/smart-inventory";
 
-// Debugging: Log every request that hits the server
-app.use((req, res, next) => {
-  console.log(`📡 Request received: ${req.method} ${req.url}`);
-  next();
-});
+console.log("Attempting to connect to:", MONGO_URI.split('@')[1] || "Localhost"); // Secure log
+
+mongoose.connect(MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected Successfully"))
+  .catch(err => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+    // This will help us see exactly what the server is seeing
+    console.error("Current URI being used:", MONGO_URI.substring(0, 20) + "..."); 
+  });
 
 // 👇 Routes
 app.use('/api/auth', require('./routes/authRoutes')); 
