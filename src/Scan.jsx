@@ -7,6 +7,7 @@ import AlertToast from "./AlertToast";
 const Scan = () => {
   const navigate = useNavigate();
   const scannerRef = useRef(null);
+  const isScanningRef = useRef(true);
 
   const [loading, setLoading] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
@@ -34,6 +35,7 @@ const Scan = () => {
   // 1. Create a function to initialize the scanner
 const startScanner = () => {
   setIsScanning(true);
+  isScanningRef.current = true;
   setStatus("Hardware Scan Active");
 
   // Small timeout to ensure the DOM element #reader is visible before rendering
@@ -48,6 +50,7 @@ const startScanner = () => {
         stopCameraHardware(); 
         scanner.clear();
         setIsScanning(false);
+        isScanningRef.current = false;
         handleLookup(decodedText);
     };
 
@@ -57,7 +60,7 @@ const startScanner = () => {
     // ⏱️ Re-attach the 20s failsafe
     setTimeout(() => {
         // We use scannerRef here to check if it's still running
-        if (scannerRef.current && isScanning) {
+        if (scannerRef.current && isScanningRef.current) {
             handleManualStop();
             setAlert({ message: "Timeout", tip: "Try again or enter manually!" });
         }
@@ -94,6 +97,7 @@ const resetScanner = () => {
       try {
         await scannerRef.current.clear();
         setIsScanning(false);
+        isScanningRef.current = false;
         setStatus("Scanner Resting 😴");
       } catch (err) {
         console.log("Cleanup already handled");

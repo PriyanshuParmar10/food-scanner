@@ -77,6 +77,7 @@ router.post('/audit', fetchUser, async (req, res,next) => {
         res.json(JSON.parse(cleanJson));
 
     } catch (err) {
+       console.error("❌ AI Audit Error:", err.message || err);
        next(err);
     }
 });
