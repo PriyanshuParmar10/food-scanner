@@ -40,9 +40,8 @@ const ShoppingList = () => {
   };
 
   const swapItem = async (originalId, newName) => {
-     // 1. Delete the bad item
+
      await deleteItem(originalId);
-     // 2. Add the healthy alternative
      const token = localStorage.getItem("token");
      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/shopping`, { name: newName }, { headers: { "auth-token": token } });
      setItems(prev => [...prev, res.data]);

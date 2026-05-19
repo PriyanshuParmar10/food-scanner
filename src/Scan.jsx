@@ -18,27 +18,24 @@ const Scan = () => {
     name: "", category: "Other", quantity: 1, expiryDate: "", image: ""
   });
 
-  // 🚀 HARDWARE KILL SWITCH: Manually stops all video tracks
   const stopCameraHardware = () => {
     const videoElement = document.querySelector('#reader video');
     if (videoElement && videoElement.srcObject) {
       const stream = videoElement.srcObject;
       const tracks = stream.getTracks();
       tracks.forEach(track => {
-        track.stop(); // 🛑 Kills the hardware sensor (red light off)
+        track.stop(); 
         console.log("Hardware track released");
       });
       videoElement.srcObject = null;
     }
   };
 
-  // 1. Create a function to initialize the scanner
 const startScanner = () => {
   setIsScanning(true);
   isScanningRef.current = true;
   setStatus("Hardware Scan Active");
 
-  // Small timeout to ensure the DOM element #reader is visible before rendering
   setTimeout(() => {
     const scanner = new Html5QrcodeScanner("reader", { 
       fps: 15, 
@@ -57,9 +54,7 @@ const startScanner = () => {
     scanner.render(onScanSuccess, (err) => {});
     scannerRef.current = scanner;
 
-    // ⏱️ Re-attach the 20s failsafe
     setTimeout(() => {
-        // We use scannerRef here to check if it's still running
         if (scannerRef.current && isScanningRef.current) {
             handleManualStop();
             setAlert({ message: "Timeout", tip: "Try again or enter manually!" });
@@ -68,7 +63,6 @@ const startScanner = () => {
   }, 100); 
 };
 
-  // 2. Update your useEffect to use this new function
 useEffect(() => {
   startScanner();
 
@@ -78,21 +72,19 @@ useEffect(() => {
   };
 }, []);
 
-// 3. Update the Reset Button handler
 const resetScanner = () => {
-  // Clear any old instances first to be safe
   if (scannerRef.current) {
     scannerRef.current.clear().then(() => {
         startScanner();
     }).catch(() => {
-        startScanner(); // Start anyway if clear fails
+        startScanner(); 
     });
   } else {
     startScanner();
   }
 };
   const handleManualStop = async () => {
-    stopCameraHardware(); // Force tracks to stop
+    stopCameraHardware(); 
     if (scannerRef.current) {
       try {
         await scannerRef.current.clear();
@@ -169,7 +161,7 @@ const resetScanner = () => {
       <div className="w-full max-w-6xl grid md:grid-cols-2 gap-10 items-center z-10">
         <div className="relative bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] min-h-[450px] flex flex-col items-center p-6">
             <h3 className="text-sm font-black text-blue-500 uppercase tracking-widest mb-6">{status}</h3>
-            {/* 📷 The Scanner Box */}
+       
             <div id="reader" className={`w-full rounded-2xl overflow-hidden border border-white/5 ${!isScanning ? 'hidden' : 'block'}`}></div>
             {!isScanning && (
                     <div className="flex flex-col gap-4 w-full px-4 animate-in fade-in zoom-in duration-300">

@@ -1,5 +1,3 @@
-// backend/middleware/errorHandler.js
-
 const funnyTips = [
     "The Chef burned the water again... try refreshing! 🔥",
     "Chef is currently taking a nap in the pantry. 😴",
@@ -9,12 +7,10 @@ const funnyTips = [
     "Chef is currently searching for his lost spatula. 🍳"
 ];
 
-// backend/middleware/errorHandler.js
 const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     let tip = "Chef is currently on a tea break.";
 
-    // 🕵️‍♂️ Contextual Funny Tips
     if (req.originalUrl.includes('analyze')) {
         tip = "The AI Nutritionist is currently eating a donut. Don't tell! 🍩";
     } else if (req.originalUrl.includes('lookup')) {

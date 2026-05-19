@@ -2,17 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// 👇 PASTE YOUR API KEY HERE (In a real app, use .env, but this is fine for now)
-
-// This tells Node to look inside the .env file instead
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// 👇 UPDATED RECIPE ROUTE (Accepts Cuisine & Meal Type)
 router.post('/recipe', async (req, res) => {
   try {
     const { ingredients, cuisine, mealType, difficulty } = req.body;
     
-    // Use the alias that works for you
     const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
     const prompt = `
@@ -46,12 +41,10 @@ router.post('/recipe', async (req, res) => {
   }
 });
 
-// 👇 NEW ROUTE: Health Analyzer
 router.post('/analyze', async (req, res,next) => {
   try {
     const { productName, healthConditions } = req.body;
     
-    // Use the alias that worked for you
     const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
     const prompt = `
@@ -78,8 +71,7 @@ router.post('/analyze', async (req, res,next) => {
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    
-    // Clean up the text to ensure it's valid JSON
+  
     let text = response.text();
     text = text.replace(/```json/g, "").replace(/```/g, "").trim();
 
@@ -91,12 +83,10 @@ router.post('/analyze', async (req, res,next) => {
 });
 router.post('/extract-barcode', async (req, res) => {
     try {
-        const { image } = req.body; // Base64 string from frontend
+        const { image } = req.body; 
 
-        // Use 'gemini-1.5-flash' for maximum speed
         const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
-        // Remove the data URL prefix if it exists (e.g., "data:image/jpeg;base64,")
         const base64Data = image.split(",")[1] || image;
 
         const prompt = "Extract the 13-digit EAN/UPC barcode number from this image. Only return the digits, no text.";
@@ -112,9 +102,8 @@ router.post('/extract-barcode', async (req, res) => {
         ]); //
 
         const response = await result.response;
-        const barcode = response.text().trim(); //
+        const barcode = response.text().trim(); 
 
-        // Only return if it's a valid number
         if (/^\d+$/.test(barcode)) {
             console.log("🎯 AI Extracted Barcode:", barcode);
             return res.json({ barcode });

@@ -6,7 +6,6 @@ import Scan from "./Scan";
 import Chef from "./Chef";
 import ShoppingList from "./ShoppingList";
 
-// Icons (Simple SVGs)
 const Icons = {
   Scan: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>,
   Box: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>,
@@ -15,7 +14,6 @@ const Icons = {
   List: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
 };
 
-// Main Component Wrapper
 function App() {
   return (
     <Router>
@@ -24,11 +22,10 @@ function App() {
   );
 }
 
-// Inner Component (So we can use hooks like useNavigate)
 function AppContent() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const navigate = useNavigate();
-  const location = useLocation(); // Gets current URL (e.g., "/scan")
+  const location = useLocation();
 
   const handleLoginSuccess = (t) => {
     localStorage.setItem("token", t);
@@ -46,7 +43,6 @@ function AppContent() {
   return (
     <div className="flex h-screen bg-[#050505] text-slate-100 overflow-hidden font-sans selection:bg-blue-500/30">
       
-      {/* 1. SIDEBAR (The "Pro" Navigation) - Hidden on Mobile */}
       <aside className="w-64 bg-[#0A0A0A]/80 backdrop-blur-xl border-r border-white/5 flex flex-col hidden md:flex z-50">
         <div className="p-8">
           <h1 className="text-2xl font-black tracking-tighter text-white">
@@ -93,16 +89,13 @@ function AppContent() {
         </div>
       </aside>
 
-      {/* 2. MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto relative bg-[#050505] scroll-smooth">
         
-        {/* Mobile Header (Only shows on small screens) */}
         <div className="md:hidden flex justify-between items-center p-4 bg-[#0A0A0A] border-b border-white/10 sticky top-0 z-40">
           <span className="font-black text-lg tracking-tight">Pantry<span className="text-blue-500">OS</span></span>
           <button onClick={handleLogout} className="text-xs font-bold text-red-500 border border-red-500/20 px-3 py-1.5 rounded-full">LOGOUT</button>
         </div>
         
-        {/* ROUTES: This replaces the old "activeTab" logic */}
         <div className="animate-fade-in-up h-full">
             <Routes>
                 <Route path="/" element={<Navigate to="/inventory" />} />
@@ -113,7 +106,6 @@ function AppContent() {
             </Routes>
         </div>
 
-        {/* Mobile Bottom Nav (Fixed to bottom) */}
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0A0A0A]/90 backdrop-blur-lg border-t border-white/10 flex justify-around p-3 z-50 pb-safe">
             <MobileNavBtn icon={<Icons.Box />} label="Pantry" isActive={location.pathname === "/inventory"} onClick={() => navigate("/inventory")} />
             <MobileNavBtn icon={<Icons.List />} label="List" isActive={location.pathname === "/shopping"} onClick={() => navigate("/shopping")} />

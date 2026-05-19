@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const InventoryItemSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User' // Links the item to the specific user who added it
+        ref: 'User'
     },
     name: {
         type: String,

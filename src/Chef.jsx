@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
-// 1. Add these imports for the animations
+
 import { motion, AnimatePresence } from "framer-motion";
 
 const Chef = () => {
@@ -15,7 +15,6 @@ const Chef = () => {
   const [recipe, setRecipe] = useState("");
   const [cooking, setCooking] = useState(false);
 
-  // Your Alert State
   const [alert, setAlert] = useState({ message: "", tip: "" });
 
   useEffect(() => {
@@ -69,8 +68,7 @@ const Chef = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white p-6 pb-24 md:pl-8 font-sans selection:bg-orange-500/30">
-      
-      {/* HEADER */}
+     
       <div className="max-w-5xl mx-auto mb-10 pt-16">
         <h1 className="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600 mb-4">
           Master Chef AI
@@ -81,7 +79,7 @@ const Chef = () => {
       </div>
 
       <div className="max-w-5xl mx-auto grid lg:grid-cols-3 gap-8">
-        {/* LEFT COLUMN: CONTROLS */}
+      
         <div className="lg:col-span-1 space-y-6">
             <div className="bg-[#0A0A0A] border border-white/10 p-6 rounded-3xl shadow-xl">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
@@ -182,7 +180,6 @@ const Chef = () => {
         </div>
       </div>
 
-      {/* 2. THE ALERT CALL: It only renders if alert.message exists */}
       <AnimatePresence>
         {alert.message && (
           <ChefAlert 
@@ -196,15 +193,13 @@ const Chef = () => {
   );
 };
 
-// 3. DEFINE THE COMPONENT HERE (Outside the main Chef component)
 const ChefAlert = ({ message, tip, onClose }) => {
   return (
     <motion.div 
-      // 👇 Changed animation to slide down from the top
       initial={{ opacity: 0, y: -100, x: "-50%", scale: 0.9 }}
       animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
       exit={{ opacity: 0, y: -20, x: "-50%", scale: 0.9 }}
-      // 👇 Changed classes to position it Top-Center
+      
       className="fixed top-10 left-1/2 z-[200] w-full max-w-sm px-4"
     >
       <div className="bg-[#1A1A1A]/90 backdrop-blur-2xl border border-white/10 p-6 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] ring-1 ring-white/20">

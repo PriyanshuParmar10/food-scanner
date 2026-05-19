@@ -15,7 +15,7 @@ const Login = ({ onLoginSuccess }) => {
   
   const [isHappy, setIsHappy] = useState(false);
   const [isShy, setIsShy] = useState(false);
-  const [isFed, setIsFed] = useState(false); // Game State
+  const [isFed, setIsFed] = useState(false); 
 
   const [focusedInput, setFocusedInput] = useState(null);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -59,14 +59,12 @@ const Login = ({ onLoginSuccess }) => {
     setIsShy(false);
   };
 
-  // Feature: Manually Feed the Bag
   const handleFeed = () => {
     if (isFed) return; 
     setIsFed(true);
     setIsHappy(true); 
     playSound("pop");
     
-    // Reset after 3 seconds
     setTimeout(() => {
         setIsFed(false);
         setIsHappy(false);
@@ -112,37 +110,28 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div className="min-h-screen flex bg-[#0F1115] text-white overflow-hidden font-sans selection:bg-orange-500/30">
-      
-      {/* ========================================= */}
-      {/* LEFT SIDE: THE HUNGRY SQUAD (60%)         */}
-      {/* ========================================= */}
+  
       <div className="hidden lg:flex w-[60%] relative items-center justify-center overflow-hidden bg-[#0B0D11]">
         
-        {/* Glow Effects */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-orange-500/10 rounded-full blur-[120px]"></div>
 
-        {/* THE SQUAD */}
         <div className="relative w-[500px] h-[500px]">
           
-          {/* 1. CENTER: Burger */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
              <MascotWrapper className="scale-125">
                 <BurgerIcon mouseX={mouseX} mouseY={mouseY} isHappy={isHappy} isShy={isShy} />
              </MascotWrapper>
           </div>
 
-          {/* 2. LEFT: The Hungry Packet */}
           <div className="absolute top-1/2 left-[-60px] -translate-y-1/2 z-20">
              <MascotWrapper className="scale-110 z-20">
                 <ChipPacketIcon mouseX={mouseX} mouseY={mouseY} isHappy={isHappy} isShy={isShy} isFed={isFed} />
              </MascotWrapper>
           </div>
 
-           {/* 3. RIGHT: The Runaway Chip (Clickable!) */}
            <div className="absolute top-1/2 right-[-80px] -translate-y-1/2 z-40 cursor-pointer" onClick={handleFeed}>
              <RunawayChipIcon isFed={isFed} />
              
-             {/* Hint Tooltip (Only visible when chip is actually there) */}
              {!isFed && (
                  <motion.div 
                     initial={{ opacity: 0, y: 10 }} 
@@ -155,7 +144,6 @@ const Login = ({ onLoginSuccess }) => {
              )}
           </div>
 
-          {/* 4. BACKGROUND SUPPORT */}
           <div className="absolute bottom-[-20px] left-10 z-10">
              <MascotWrapper className="rotate-12 scale-90">
                 <SodaIcon mouseX={mouseX} mouseY={mouseY} isHappy={isHappy} isShy={isShy} />
@@ -175,9 +163,6 @@ const Login = ({ onLoginSuccess }) => {
         </div>
       </div>
 
-      {/* ========================================= */}
-      {/* RIGHT SIDE: THE FORM (40%)                */}
-      {/* ========================================= */}
       <div className="w-full lg:w-[40%] flex flex-col justify-center p-8 lg:p-24 relative z-20 bg-[#0F1115] border-l border-white/5 shadow-2xl">
         <div className="max-w-sm w-full mx-auto">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -239,7 +224,6 @@ const Login = ({ onLoginSuccess }) => {
   );
 };
 
-// --- HELPER COMPONENTS ---
 
 const InputGroup = ({ label, type, name, placeholder, onChange, onFocus, onBlur }) => (
   <div className="group">
@@ -278,9 +262,6 @@ const useEyeMovement = (mouseX, mouseY, range = 6) => {
   return { x, y };
 };
 
-// =========================================
-// INTERACTIVE CHARACTERS (FIXED)
-// =========================================
 
 const ChipPacketIcon = ({ mouseX, mouseY, isHappy, isShy, isFed }) => {
     const pupilsX = useTransform(mouseX, [0, 1], [0, 10]); 
@@ -310,7 +291,6 @@ const ChipPacketIcon = ({ mouseX, mouseY, isHappy, isShy, isFed }) => {
     );
   };
 
-// 👇 FIXED: Explicit scale/opacity restore when !isFed
 const RunawayChipIcon = ({ isFed }) => {
     return (
       <motion.svg width="60" height="60" viewBox="0 0 50 50"

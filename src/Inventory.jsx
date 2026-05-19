@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import ReactMarkdown from "react-markdown";
+
 import { motion, AnimatePresence } from "framer-motion";
 import AlertToast from "./AlertToast";
 import { createPortal } from "react-dom";
@@ -72,7 +72,6 @@ const Inventory = () => {
     else setAnalysis(null); 
   }, [viewingItem]);
 
-  // 🛠️ Trigger Functions
   const triggerDelete = (id) => setConfirmState({ isOpen: true, id, type: 'single' });
   const triggerBulkDelete = () => setConfirmState({ isOpen: true, id: null, type: 'bulk' });
 
@@ -118,7 +117,6 @@ const Inventory = () => {
 
   const activeHealthCount = Object.values(healthProfile).filter(Boolean).length;
 
-  // 🎨 Internal Modal Component
   const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => (
     <AnimatePresence>
       {isOpen && (
@@ -144,7 +142,6 @@ const Inventory = () => {
   return (
     <div className="relative min-h-screen pb-24 font-sans bg-[#050505] text-white overflow-x-hidden selection:bg-indigo-500/30">
 
-      {/* BACKGROUND GLOWS */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px] mix-blend-screen"></div>
           <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] mix-blend-screen"></div>
@@ -152,7 +149,6 @@ const Inventory = () => {
 
       <div className="max-w-7xl mx-auto px-6 pt-10">
         
-        {/* HEADER SECTION */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
           <div className="text-center md:text-left">
             <h2 className="text-5xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-500 mb-2">My Pantry</h2>
@@ -169,7 +165,6 @@ const Inventory = () => {
           </button>
         </div>
 
-        {/* INVENTORY GRID */}
         {loading ? (
             <div className="flex justify-center items-center h-64"><div className="animate-spin w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full"></div></div>
         ) : items.length === 0 ? (
@@ -202,7 +197,6 @@ const Inventory = () => {
         )}
       </div>
 
-      {/* FLOAT ACTION BUTTONS */}
       {selectedIds.length > 0 && (
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3">
           <button onClick={handleGenerateRecipe} disabled={isChefThinking} className="bg-white text-black hover:bg-slate-200 font-black py-4 px-10 rounded-full shadow-2xl flex items-center gap-3 active:scale-95 transition-all">
@@ -212,7 +206,6 @@ const Inventory = () => {
         </div>
       )}
 
-      {/* 🏥 HEALTH MODAL (RESORED) */}
       <AnimatePresence>
         {isHealthModalOpen && (
           <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setIsHealthModalOpen(false)}>
@@ -235,7 +228,6 @@ const Inventory = () => {
         )}
       </AnimatePresence>
 
-      {/* 📦 ITEM DETAILS MODAL (RESTORED) */}
       <AnimatePresence>
         {viewingItem && (
           <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" onClick={() => setViewingItem(null)}>
@@ -265,12 +257,11 @@ const Inventory = () => {
         onCancel={() => setConfirmState({ isOpen: false, id: null, type: null })}
       />
       
-      {/* 🚀 THE FIXED PORTAL: No more layout jumping */}
 {alertState.message && createPortal(
   <div className="fixed inset-0 pointer-events-none z-[9999] flex justify-center pt-10">
     <AnimatePresence>
       <motion.div
-        // 🛠️ THE FIX: Define the structure in the initial state
+
         initial={{ y: -50, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: -20, opacity: 0, scale: 0.95 }}
@@ -278,10 +269,10 @@ const Inventory = () => {
           type: "spring", 
           damping: 20, 
           stiffness: 300,
-          // This ensures the layout is calculated before the animation starts
+          
           layout: { duration: 0.3 } 
         }}
-        // 🛠️ Match the Toast's width here so it doesn't "squish"
+        
         className="pointer-events-auto w-full max-w-sm flex justify-center"
       >
         <AlertToast 

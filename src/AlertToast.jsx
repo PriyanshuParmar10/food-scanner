@@ -1,8 +1,6 @@
-// src/components/AlertToast.jsx
 import { motion, AnimatePresence } from "framer-motion";
 
 const AlertToast = ({ message, tip, type, onClose }) => {
-  // 🎭 Switch emoji based on where the error came from
   const getIcon = () => {
     if (type === "scan") return "📸";
     if (type === "health") return "🏥";
