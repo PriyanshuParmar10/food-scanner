@@ -1,6 +1,5 @@
 # 🍔 PantryOS — Smart Food Scanner & Kitchen Assistant
 
-> **Minor Project** — Built with React, Node.js, MongoDB & Google Gemini AI
 
 PantryOS is a full-stack intelligent kitchen management system that helps users scan food products via barcode, manage their pantry inventory, get AI-generated recipes from available ingredients, and receive personalized health analysis based on their health profile.
 
@@ -136,4 +135,4 @@ food-scanner/
 
 ## 📄 License
 
-This project is for educational purposes (Minor Project).
+This project is for educational purposes.
